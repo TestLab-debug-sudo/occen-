@@ -149,8 +149,8 @@ const DailyTab: React.FC = () => {
 
       {/* Attendance table */}
       <div className="glass-card overflow-hidden">
-        <div className="overflow-x-auto">
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <div className="table-responsive">
+          <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '700px' }}>
             <thead>
               <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
                 {['#', t.employeeName, t.rank, 'Approval', t.status, t.checkIn, t.checkOut, t.remarks, ''].map(h => (
@@ -398,8 +398,8 @@ const MonthlyTab: React.FC = () => {
       </div>
 
       <div className="glass-card overflow-hidden">
-        <div className="overflow-x-auto">
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <div className="table-responsive">
+          <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '650px' }}>
             <thead>
               <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
                 <th style={{ padding: '10px 14px', textAlign: 'left', fontSize: '0.7rem', fontWeight: 600, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase' }}>Employee</th>

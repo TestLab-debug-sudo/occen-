@@ -213,8 +213,8 @@ const EmployeeAttendanceHistoryPage: React.FC = () => {
                 </button>
 
                 {expandedMonth === m.monthLabel && (
-                  <div className="border-t overflow-x-auto" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
-                    <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <div className="border-t table-responsive" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
+                    <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '550px' }}>
                       <thead>
                         <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
                           {[t.date, t.status, t.checkIn, t.checkOut, 'Location', t.remarks].map(h => (

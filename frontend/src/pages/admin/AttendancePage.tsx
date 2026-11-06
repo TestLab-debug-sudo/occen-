@@ -96,7 +96,7 @@ const AttendancePage: React.FC = () => {
         </div>
 
         <motion.div className="glass-card overflow-hidden" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-          <div className="overflow-x-auto">
+          <div className="table-responsive">
             <table className="data-table">
               <thead><tr><th>Employee</th><th>Category</th><th>Status</th><th>Check In</th><th>Check Out</th><th>Location</th><th>Remarks</th><th>Action</th></tr></thead>
               <tbody>

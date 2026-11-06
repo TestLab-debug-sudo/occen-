@@ -16,41 +16,40 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, size = 
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 flex items-center justify-center p-4" style={{ zIndex: 9999 }}>
+        <div className="fixed inset-0 flex items-center justify-center p-2.5 sm:p-4 z-[9999]">
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0"
-            style={{ background: 'rgba(6,40,68,0.85)', backdropFilter: 'blur(4px)' }}
+            className="absolute inset-0 bg-[#062844]/85 backdrop-blur-md"
             onClick={onClose}
           />
-          {/* Modal */}
+          {/* Modal Card */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.92, y: 20 }}
+            initial={{ opacity: 0, scale: 0.95, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.92, y: 20 }}
+            exit={{ opacity: 0, scale: 0.95, y: 15 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="relative glass-card-light overflow-hidden"
-            style={{ width: '100%', maxWidth: sizeMap[size], maxHeight: '90vh', display: 'flex', flexDirection: 'column' }}
+            className="relative glass-card-light overflow-hidden rounded-2xl w-full flex flex-col max-h-[92dvh] sm:max-h-[88vh] shadow-2xl"
+            style={{ maxWidth: sizeMap[size] }}
           >
             {/* Header */}
             <div
-              className="flex items-center justify-between px-6 py-4 flex-shrink-0"
+              className="flex items-center justify-between px-4 sm:px-6 py-3.5 sm:py-4 flex-shrink-0"
               style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}
             >
-              <h2 className="text-lg font-semibold text-white">{title}</h2>
+              <h2 className="text-base sm:text-lg font-semibold text-white truncate pr-2">{title}</h2>
               <button
                 onClick={onClose}
-                className="btn-icon"
-                style={{ color: 'rgba(255,255,255,0.6)' }}
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center text-white/70 hover:text-white bg-white/10 hover:bg-white/20 transition-all flex-shrink-0"
+                aria-label="Close modal"
               >
-                <X size={16} />
+                <X size={18} />
               </button>
             </div>
-            {/* Content */}
-            <div className="overflow-y-auto flex-1 px-6 py-5">
+            {/* Scrollable Content */}
+            <div className="overflow-y-auto flex-1 px-4 sm:px-6 py-4 sm:py-5 overscroll-contain">
               {children}
             </div>
           </motion.div>

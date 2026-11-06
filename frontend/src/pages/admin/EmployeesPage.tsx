@@ -120,7 +120,7 @@ const EmployeesPage: React.FC = () => {
         </div>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="glass-card overflow-hidden">
-          <div className="overflow-x-auto">
+          <div className="table-responsive">
             <table className="data-table">
               <thead>
                 <tr><th>Employee</th><th>ID</th><th>Category</th><th>Job Role</th><th>Contact</th><th>Status</th><th>Manager</th><th>Actions</th></tr>

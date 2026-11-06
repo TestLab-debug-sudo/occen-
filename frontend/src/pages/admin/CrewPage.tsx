@@ -63,7 +63,7 @@ const CrewPage: React.FC = () => {
           <p className="text-sm mt-0.5" style={{ color: 'rgba(255,255,255,0.5)' }}>Assign crew members to sea trips</p>
         </div>
 
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
           <div className="glass-card p-4 text-center" style={{ borderTop: '3px solid #36B99B' }}><div className="text-3xl font-bold" style={{ color: '#36B99B' }}>{available.length}</div><div className="text-sm mt-1" style={{ color: 'rgba(255,255,255,0.6)' }}>Available on Shore</div></div>
           <div className="glass-card p-4 text-center" style={{ borderTop: '3px solid #27C5C1' }}><div className="text-3xl font-bold" style={{ color: '#27C5C1' }}>{atSea.length}</div><div className="text-sm mt-1" style={{ color: 'rgba(255,255,255,0.6)' }}>Currently at Sea</div></div>
           <div className="glass-card p-4 text-center" style={{ borderTop: '3px solid #fbbf24' }}><div className="text-3xl font-bold" style={{ color: '#fbbf24' }}>{onLeave.length}</div><div className="text-sm mt-1" style={{ color: 'rgba(255,255,255,0.6)' }}>On Leave</div></div>

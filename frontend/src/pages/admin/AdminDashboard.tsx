@@ -64,7 +64,7 @@ const AdminDashboard: React.FC = () => {
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-6 gap-3 sm:gap-4">
           <StatCard title="Total Employees" value={stats.totalEmployees || 0} icon={<Users size={18} />} color="#27C5C1" delay={0} />
           <StatCard title="Present Today" value={stats.presentToday || 0} icon={<CheckCircle size={18} />} color="#36B99B" delay={0.05} />
           <StatCard title="Absent Today" value={stats.absentToday || 0} icon={<AlertCircle size={18} />} color="#ef4444" delay={0.1} />
@@ -73,7 +73,7 @@ const AdminDashboard: React.FC = () => {
           <StatCard title="On Shore" value={stats.available || 0} icon={<UserCheck size={18} />} color="#36B99B" subtitle="Available" delay={0.25} />
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-6 gap-3 sm:gap-4">
           <StatCard title="Total Boats" value={stats.totalBoats || 0} icon={<Ship size={18} />} color="#27C5C1" delay={0.3} />
           <StatCard title="Boats at Sea" value={stats.boatsAtSea || 0} icon={<Navigation size={18} />} color="#27C5C1" delay={0.35} />
           <StatCard title="Boats Docked" value={stats.boatsDocked || 0} icon={<Anchor size={18} />} color="#36B99B" delay={0.4} />
@@ -188,7 +188,7 @@ const AdminDashboard: React.FC = () => {
           <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
             <Users size={16} style={{ color: '#27C5C1' }} /> Employee Roster — Today
           </h3>
-          <div className="overflow-x-auto">
+          <div className="table-responsive">
             <table className="data-table">
               <thead><tr><th>Employee</th><th>ID</th><th>Category</th><th>Status</th><th>Assignment</th></tr></thead>
               <tbody>

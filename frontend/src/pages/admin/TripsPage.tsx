@@ -77,20 +77,20 @@ const TripsPage: React.FC = () => {
           </select>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-5">
           {trips.map((trip) => (
-            <motion.div key={trip._id} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="glass-card p-5">
+            <motion.div key={trip._id} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="glass-card p-4 sm:p-5">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(39,197,193,0.15)' }}><Compass size={18} style={{ color: '#27C5C1' }} /></div>
-                  <div>
-                    <h3 className="font-semibold text-white">{trip.boat?.boatName}</h3>
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(39,197,193,0.15)' }}><Compass size={18} style={{ color: '#27C5C1' }} /></div>
+                  <div className="truncate">
+                    <h3 className="font-semibold text-white truncate">{trip.boat?.boatName}</h3>
                     <p className="text-xs" style={{ color: '#27C5C1' }}>{trip.tripId}</p>
                   </div>
                 </div>
                 <StatusBadge status={trip.status} size="sm" />
               </div>
-              <div className="grid grid-cols-2 gap-3 text-sm mb-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 text-sm mb-4">
                 {[['Captain', trip.captain?.fullName], ['Crew', `${trip.crew?.length || 0} members`], ['From', trip.departureHarbour], ['To', trip.destination], ['Depart', trip.departureDate ? format(new Date(trip.departureDate), 'MMM d, HH:mm') : '—'], ['Return', trip.expectedReturnDate ? format(new Date(trip.expectedReturnDate), 'MMM d') : 'TBD']].map(([k, v]) => (
                   <div key={k as string}><span style={{ color: 'rgba(255,255,255,0.45)' }}>{k}: </span><span className="text-white">{v}</span></div>
                 ))}

@@ -80,7 +80,7 @@ const LeavePage: React.FC = () => {
         </div>
 
         <motion.div className="glass-card overflow-hidden" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-          <div className="overflow-x-auto">
+          <div className="table-responsive">
             <table className="data-table">
               <thead><tr><th>Employee</th><th>Leave Type</th><th>From</th><th>To</th><th>Days</th><th>Reason</th><th>Status</th><th>Actions</th></tr></thead>
               <tbody>

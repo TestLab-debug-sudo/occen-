@@ -64,7 +64,7 @@ const BoatsPage: React.FC = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
           {boats.map((boat) => (
             <motion.div key={boat._id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="glass-card p-5 relative overflow-hidden">
               <div className="absolute top-0 left-0 right-0 h-1" style={{ background: boat.status === 'Currently at Sea' ? '#27C5C1' : boat.status === 'Under Maintenance' ? '#FF875E' : '#36B99B' }} />

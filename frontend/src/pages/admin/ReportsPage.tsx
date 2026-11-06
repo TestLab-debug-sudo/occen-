@@ -239,7 +239,7 @@ const ReportsPage: React.FC = () => {
           </div>
 
           {reportData.length > 0 ? (
-            <div className="overflow-x-auto">
+            <div className="table-responsive">
               <table className="data-table">
                 <thead>
                   <tr>

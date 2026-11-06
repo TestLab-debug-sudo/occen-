@@ -129,7 +129,7 @@ const ManagerDashboard: React.FC = () => {
               <p className="text-xs mt-1">Ask the admin to assign employees to your account</p>
             </div>
           ) : (
-            <div className="overflow-x-auto">
+            <div className="table-responsive">
               <table className="data-table">
                 <thead>
                   <tr><th>Employee</th><th>ID</th><th>Category</th><th>Current Status</th></tr>

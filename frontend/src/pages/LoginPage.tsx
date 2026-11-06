@@ -64,7 +64,7 @@ const LoginPage: React.FC = () => {
             <p className="text-xs font-semibold text-white/60 uppercase tracking-wider mb-3 text-center">
               ⚡ Instant 1-Click Entry (Default Auto-Login)
             </p>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
               <button
                 type="button"
                 onClick={() => quickLogin('admin')}

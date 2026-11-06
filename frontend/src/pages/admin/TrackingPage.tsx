@@ -105,9 +105,9 @@ const TrackingPage: React.FC = () => {
           )}
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
           {/* Map */}
-          <div className="lg:col-span-2 glass-card overflow-hidden" style={{ height: '480px' }}>
+          <div className="lg:col-span-2 glass-card overflow-hidden h-[320px] sm:h-[420px] lg:h-[520px]">
             <MapContainer center={[4.5, 101.5]} zoom={7} style={{ height: '100%', width: '100%' }}>
               <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution='&copy; OpenStreetMap contributors' />
               {mapBoats.map((boat) => (
@@ -132,7 +132,7 @@ const TrackingPage: React.FC = () => {
           </div>
 
           {/* Boat List */}
-          <div className="glass-card p-5 overflow-y-auto" style={{ maxHeight: '480px' }}>
+          <div className="glass-card p-4 sm:p-5 overflow-y-auto max-h-[360px] lg:max-h-[520px]">
             <h3 className="text-white font-semibold mb-4">Boat Positions</h3>
             <div className="space-y-3">
               {boats.map((boat) => (

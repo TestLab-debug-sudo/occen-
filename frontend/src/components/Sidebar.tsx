@@ -5,10 +5,10 @@ import { useAuthStore } from '../store/authStore';
 import {
   LayoutDashboard, Users, CalendarCheck, Ship, MapPin, Compass,
   UserCheck, FileText, Bell, Settings, ChevronLeft, ChevronRight,
-  LogOut, Anchor, ClipboardList, BarChart3, UserCog, History, AlertCircle
+  LogOut, Anchor, ClipboardList, BarChart3, UserCog, History, AlertCircle, X
 } from 'lucide-react';
 
-const adminNavItems = [
+export const adminNavItems = [
   { icon: LayoutDashboard, label: 'Dashboard', path: '/admin/dashboard' },
   { icon: Users, label: 'Employees', path: '/admin/employees' },
   { icon: CalendarCheck, label: 'Attendance', path: '/admin/attendance' },
@@ -26,7 +26,7 @@ const adminNavItems = [
   { icon: Settings, label: 'Settings', path: '/admin/settings' },
 ];
 
-const managerNavItems = [
+export const managerNavItems = [
   { icon: LayoutDashboard, label: 'Dashboard', path: '/manager/dashboard' },
   { icon: Users, label: 'My Employees', path: '/manager/employees' },
   { icon: CalendarCheck, label: 'Attendance', path: '/manager/attendance' },
@@ -40,9 +40,14 @@ const managerNavItems = [
   { icon: Bell, label: 'Notifications', path: '/manager/notifications' },
 ];
 
-interface SidebarProps { collapsed: boolean; onToggle: () => void; }
+interface SidebarProps {
+  collapsed: boolean;
+  onToggle: () => void;
+  mobile?: boolean;
+  onClose?: () => void;
+}
 
-const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
+const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle, mobile = false, onClose }) => {
   const { user, logout } = useAuthStore();
   const navigate = useNavigate();
   const location = useLocation();
@@ -66,84 +71,101 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
     return () => clearInterval(timer);
   }, []);
 
+  const handleNav = (path: string) => {
+    navigate(path);
+    if (mobile && onClose) onClose();
+  };
+
+  const isExpanded = mobile || !collapsed;
+
   return (
-    <motion.div
-      animate={{ width: collapsed ? 72 : 256 }}
-      transition={{ duration: 0.3, ease: 'easeInOut' }}
-      className="flex-shrink-0 h-screen flex flex-col relative"
+    <motion.aside
+      animate={{ width: mobile ? 280 : collapsed ? 72 : 256 }}
+      transition={{ duration: 0.25, ease: 'easeInOut' }}
+      className={`flex-shrink-0 h-full flex flex-col relative select-none ${mobile ? 'w-[280px] max-w-[85vw]' : ''}`}
       style={{
-        background: 'linear-gradient(180deg, rgba(8,47,73,0.98) 0%, rgba(6,59,92,0.95) 100%)',
+        background: 'linear-gradient(180deg, rgba(8,47,73,0.98) 0%, rgba(6,59,92,0.96) 100%)',
         backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
         borderRight: '1px solid rgba(255,255,255,0.08)',
         zIndex: 50,
       }}
     >
-      {/* Logo */}
-      <div className="flex items-center px-4 py-5 gap-3 border-b border-white/[0.08] flex-shrink-0">
-        <div
-          className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 animate-pulse-glow"
-          style={{ background: 'linear-gradient(135deg, #27C5C1, #36B99B)' }}
-        >
-          <Anchor size={20} color="white" />
+      {/* Logo Header */}
+      <div className="flex items-center justify-between px-4 py-4 sm:py-5 border-b border-white/[0.08] flex-shrink-0">
+        <div className="flex items-center gap-3 overflow-hidden">
+          <div
+            className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 animate-pulse-glow"
+            style={{ background: 'linear-gradient(135deg, #27C5C1, #36B99B)' }}
+          >
+            <Anchor size={20} color="white" />
+          </div>
+          <AnimatePresence>
+            {isExpanded && (
+              <motion.div
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -10 }}
+                transition={{ duration: 0.2 }}
+                className="truncate"
+              >
+                <div className="text-white font-bold text-sm tracking-tight leading-tight">Marine Ops</div>
+                <div className="text-xs" style={{ color: '#27C5C1' }}>Management System</div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
-        <AnimatePresence>
-          {!collapsed && (
-            <motion.div
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -10 }}
-              transition={{ duration: 0.2 }}
-            >
-              <div className="text-white font-bold text-sm leading-tight">Marine Ops</div>
-              <div className="text-xs" style={{ color: '#27C5C1' }}>Management System</div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+
+        {/* Mobile close button */}
+        {mobile && (
+          <button
+            onClick={onClose}
+            className="p-2 rounded-lg text-white/60 hover:text-white hover:bg-white/10 transition-colors"
+            aria-label="Close menu"
+          >
+            <X size={20} />
+          </button>
+        )}
       </div>
 
-      {/* Navigation */}
-      <nav className="flex-1 px-3 py-4 overflow-y-auto space-y-1">
+      {/* Navigation List */}
+      <nav className="flex-1 px-3 py-3 overflow-y-auto space-y-1 overscroll-contain">
         {navItems.map((item) => {
           const active = location.pathname === item.path || location.pathname.startsWith(item.path + '/');
           return (
             <motion.button
               key={item.path}
-              onClick={() => navigate(item.path)}
+              onClick={() => handleNav(item.path)}
               whileHover={{ x: 2 }}
-              whileTap={{ scale: 0.97 }}
-              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 text-left"
+              whileTap={{ scale: 0.98 }}
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 text-left min-h-[44px]"
               style={{
                 background: active ? 'rgba(39,197,193,0.15)' : 'transparent',
-                color: active ? '#27C5C1' : 'rgba(255,255,255,0.65)',
+                color: active ? '#27C5C1' : 'rgba(255,255,255,0.7)',
                 border: active ? '1px solid rgba(39,197,193,0.3)' : '1px solid transparent',
               }}
             >
               <div className="relative flex-shrink-0">
-                <item.icon size={18} />
+                <item.icon size={19} />
                 {(item as any).badge && corrCount > 0 && (
-                  <span className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full text-white flex items-center justify-center text-[10px] font-bold"
+                  <span className="absolute -top-1.5 -right-1.5 min-w-4 h-4 px-1 rounded-full text-white flex items-center justify-center font-bold"
                     style={{ background: '#FF875E', fontSize: '9px' }}>{corrCount}</span>
                 )}
                 {(item as any).attendanceBadge && pendingAttCount > 0 && (
-                  <span className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full text-white flex items-center justify-center text-[10px] font-bold"
+                  <span className="absolute -top-1.5 -right-1.5 min-w-4 h-4 px-1 rounded-full text-white flex items-center justify-center font-bold"
                     style={{ background: '#fbbf24', fontSize: '9px' }}>{pendingAttCount}</span>
                 )}
               </div>
               <AnimatePresence>
-                {!collapsed && (
+                {isExpanded && (
                   <motion.span
-                    initial={{ opacity: 0, x: -8 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -8 }}
-                    className="text-sm font-medium whitespace-nowrap overflow-hidden flex-1 flex items-center justify-between"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.15 }}
+                    className="text-sm font-medium truncate flex-1"
                   >
                     {item.label}
-                    {(item as any).badge && corrCount > 0 && (
-                      <span className="ml-2 px-1.5 py-0.5 rounded-full text-xs font-bold" style={{ background: 'rgba(255,135,94,0.25)', color: '#FF875E' }}>{corrCount}</span>
-                    )}
-                    {(item as any).attendanceBadge && pendingAttCount > 0 && (
-                      <span className="ml-2 px-1.5 py-0.5 rounded-full text-xs font-bold" style={{ background: 'rgba(251,191,36,0.25)', color: '#fbbf24' }}>{pendingAttCount}</span>
-                    )}
                   </motion.span>
                 )}
               </AnimatePresence>
@@ -152,40 +174,40 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
         })}
       </nav>
 
-      {/* User info & Logout */}
-      <div className="flex-shrink-0 px-3 py-4 border-t border-white/[0.08] space-y-2">
-        <div className="flex items-center gap-3 px-3 py-2">
+      {/* User profile & Logout */}
+      <div className="flex-shrink-0 px-3 py-3 border-t border-white/[0.08] space-y-2">
+        <div className="flex items-center gap-3 px-3 py-2 rounded-xl bg-white/[0.03]">
           <div
-            className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
+            className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 shadow-sm"
             style={{ background: 'linear-gradient(135deg, #27C5C1, #36B99B)' }}
           >
             {user?.name?.charAt(0).toUpperCase()}
           </div>
           <AnimatePresence>
-            {!collapsed && (
+            {isExpanded && (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="overflow-hidden"
+                className="overflow-hidden flex-1"
               >
-                <div className="text-white text-xs font-medium truncate max-w-[140px]">{user?.name}</div>
-                <div className="text-xs capitalize" style={{ color: '#27C5C1' }}>{user?.role}</div>
+                <div className="text-white text-xs font-medium truncate">{user?.name}</div>
+                <div className="text-[11px] capitalize font-semibold" style={{ color: '#27C5C1' }}>{user?.role}</div>
               </motion.div>
             )}
           </AnimatePresence>
         </div>
         <button
-          onClick={logout}
-          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-colors"
-          style={{ color: 'rgba(255,100,100,0.7)' }}
-          onMouseOver={e => (e.currentTarget.style.background = 'rgba(255,100,100,0.1)')}
+          onClick={() => { logout(); if (mobile && onClose) onClose(); }}
+          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-colors min-h-[44px]"
+          style={{ color: 'rgba(255,100,100,0.85)' }}
+          onMouseOver={e => (e.currentTarget.style.background = 'rgba(255,100,100,0.12)')}
           onMouseOut={e => (e.currentTarget.style.background = 'transparent')}
         >
-          <LogOut size={16} className="flex-shrink-0" />
+          <LogOut size={17} className="flex-shrink-0" />
           <AnimatePresence>
-            {!collapsed && (
-              <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="text-sm">
+            {isExpanded && (
+              <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="text-sm font-medium">
                 Logout
               </motion.span>
             )}
@@ -193,15 +215,18 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
         </button>
       </div>
 
-      {/* Collapse toggle */}
-      <button
-        onClick={onToggle}
-        className="absolute -right-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full flex items-center justify-center"
-        style={{ background: '#27C5C1', color: 'white', border: '2px solid rgba(8,47,73,0.8)', zIndex: 60 }}
-      >
-        {collapsed ? <ChevronRight size={12} /> : <ChevronLeft size={12} />}
-      </button>
-    </motion.div>
+      {/* Desktop Collapse Toggle Chevron */}
+      {!mobile && (
+        <button
+          onClick={onToggle}
+          className="absolute -right-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full hidden lg:flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
+          style={{ background: '#27C5C1', color: 'white', border: '2px solid rgba(8,47,73,0.8)', zIndex: 60 }}
+          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+        >
+          {collapsed ? <ChevronRight size={12} /> : <ChevronLeft size={12} />}
+        </button>
+      )}
+    </motion.aside>
   );
 };
 
